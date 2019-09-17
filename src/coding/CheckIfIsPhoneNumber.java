@@ -27,7 +27,24 @@ public class CheckIfIsPhoneNumber {
         while (matcher.find()) 
         { 
             //获取到之前查找到的字符串，并将其添加入set中
-            phoneSet.add(matcher.group());
+            System.out.print(matcher.group());
+            System.out.print("\",\"地址\":[");
+            dataStr= dataStr.replace(matcher.group(),"");//去掉手机号
+            String ss= CheckAddress.addressResolution(dataStr).toString();
+            ss=ss.replace("{", "");
+            ss=ss.replace("=", "");
+            ss=ss.replace("}", "");
+            ss=ss.replace("province","");
+            ss=ss.replace("town","");
+            ss=ss.replace("city","");
+            ss=ss.replace("district","");
+            ss=ss.replace("village","");
+            ss=ss.replace(",","\",\"");
+            ss=ss.replace(" ","");
+            System.out.print("\"");
+            System.out.print(ss);
+            System.out.print("\"");
+	        //System.out.print(CheckAddress.addressResolution(dataStr));//打地址
         } 
         //System.out.println(phoneSet);
     }

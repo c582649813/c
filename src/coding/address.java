@@ -17,11 +17,11 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class address {
     /**
-     * 从dataStr中获取出所有的电话号码（固话和移动电话），将其放入Set
+     * 从dataStr中获取出所有的电话号码，将其放入Set
      * @param dataStr    待查找的字符串
      * @param phoneSet    dataStr中的电话号码
      */
-	 public static Set<String> getPhoneNumFromFile(String filePath)
+	 public static Set<String> getFile(String filePath)
 	  {
 	    Set<String> phoneSet = new HashSet<String>();
 	    try
@@ -34,16 +34,26 @@ public class address {
 	            new FileInputStream(file), encoding);// 考虑到编码格
 	        BufferedReader bufferedReader = new BufferedReader(read);
 	        String lineTxt = null;
+	        System.out.print("[");
 	        while ((lineTxt = bufferedReader.readLine()) != null)
 	        {
-	          //读取文件中的一行，将其中的电话号码添加到phoneSet中
-	          CheckIfIsPhoneNumber.getPhoneNumFromStrIntoSet(lineTxt, phoneSet);
+	          //读取文件中的一行
+	        	//System.out.println(AddressUtil.addressResolutionVersion2(split[1],1));
+	        	lineTxt = lineTxt.replace(".","");
+	        	System.out.print("{\"姓名\":\"");
+	        	int begin=0;
+	        	int last=lineTxt.indexOf(",");
+	        	int len=lineTxt.length();
+	        	System.out.print(lineTxt.substring(begin,last));
+	        	//String a=lineTxt.substring(0, lineTxt.indexOf(","));
+	        	lineTxt= lineTxt.substring(last+1,len);//去掉名字
+	        	System.out.print("\",\"手机\":\"");
+	          CheckIfIsPhoneNumber.getPhoneNumFromStrIntoSet(lineTxt, phoneSet);//用正则提取出手机号
+	          //System.out.print(CheckAddress.addressResolution(lineTxt));
+		        System.out.println("]}");
 	        }
+	        System.out.println("]");
 	        read.close();
-	      }
-	      else
-	      {
-	        System.out.println("找不到指定的文件");
 	      }
 	    }
 	    catch (Exception e)
@@ -55,8 +65,7 @@ public class address {
 	  }
 	 public static void main(String argv[])
 	 {
-	   String filePath = "D:\\java\\three.txt";	
-	   Set<String> phoneSet = getPhoneNumFromFile(filePath);
-	   System.out.println(phoneSet);
+	   String filePath = "D:\\java\\data.txt";	
+	   Set<String> phoneSet = getFile(filePath);
 	 }
 }
